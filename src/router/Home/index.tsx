@@ -4,7 +4,6 @@ import React from 'react';
 import { VehicleDataProvider } from '@/src/hooks/local/Vehicle';
 import { VehiclesContextProvider } from '@/src/hooks/local/Vehicles';
 
-import { SCREEN_NAME, SCREENS } from '../screens';
 import { InspectionNavigator } from './Inspections';
 import { useInspectionStyles } from './styles';
 import { HomeStackParams } from './types';
@@ -24,7 +23,7 @@ export function HomeNavigator(): JSX.Element {
               headerTitle: '',
             }}
           >
-            <HomeStack.Group
+            {/* <HomeStack.Group
               screenOptions={{
                 headerShadowVisible: false,
                 headerStyle: styles.headerStyles,
@@ -43,7 +42,7 @@ export function HomeNavigator(): JSX.Element {
                 name={SCREENS[SCREEN_NAME.VEHICLE_DETAIL].name}
                 component={SCREENS[SCREEN_NAME.VEHICLE_DETAIL].component}
               />
-            </HomeStack.Group>
+            </HomeStack.Group> */}
             <HomeStack.Screen
               options={{ headerShown: false }}
               name={'InspectionSubStack'}

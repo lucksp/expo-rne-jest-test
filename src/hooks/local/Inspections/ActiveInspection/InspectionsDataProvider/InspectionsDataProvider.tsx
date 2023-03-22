@@ -2,11 +2,11 @@ import React, { createContext, ReactNode } from 'react';
 import { useImmerReducer } from 'use-immer';
 
 import { flatResponseGet } from '@/src/helpers/api';
+import { useAPIErrors } from '@/src/hooks/global/APIErrors';
+import { useAuthorization } from '@/src/hooks/global/Authorization';
 import { ApiPath } from '@/src/hooks/routes';
 import { useDeltaSwr } from '@/src/hooks/useDeltaSwr';
 
-import { useAPIErrors } from '../../../global/APIErrors';
-import { useAuthorization } from '../../../global/Authorization';
 import { ACTIONS } from './actions';
 import { initialState, reducer } from './reducer';
 import { Context, Inspection } from './types';

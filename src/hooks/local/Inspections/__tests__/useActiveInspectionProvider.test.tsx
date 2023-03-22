@@ -11,51 +11,51 @@ import { InspectionsDataProvider } from '../../InspectionsDataProvider/Inspectio
 import { ActiveInspectionProvider } from '../ActiveInspectionProvider';
 import { useActiveInspectionContext } from '../useActiveInspectionContext';
 
-const mockUser = {
-  id: 123456,
-  'first-name': 'Test',
-  'last-name': 'User',
-  email: 'test@jest.com',
-  'email-verified': true,
-  'phone-number': '',
-  'phone-number-verified': true,
-  'avatar-url': '',
-  'average-rating': 0,
-  'identification-status': 'verified',
-  'credit-balance': 0,
-  'unread-message-count': 0,
-  'app-login': true,
-  'driver-cup-opt-in': false,
-  'suspended-at': null,
-};
+// const mockUser = {
+//   id: 123456,
+//   'first-name': 'Test',
+//   'last-name': 'User',
+//   email: 'test@jest.com',
+//   'email-verified': true,
+//   'phone-number': '',
+//   'phone-number-verified': true,
+//   'avatar-url': '',
+//   'average-rating': 0,
+//   'identification-status': 'verified',
+//   'credit-balance': 0,
+//   'unread-message-count': 0,
+//   'app-login': true,
+//   'driver-cup-opt-in': false,
+//   'suspended-at': null,
+// };
 
-jest.mock('@/src/hooks/global/Authorization', () => ({
-  AuthContextProvider: ({ children, ...rest }) => {
-    console.log({ children, ...rest });
-    return (
-      <MockAuth.MockAuthContextProvider {...rest}>{children}</MockAuth.MockAuthContextProvider>
-    );
-  },
-  useAuthorization: () => MockAuth.useAuthorization(),
-}));
+// jest.mock('@/src/hooks/global/Authorization', () => ({
+//   AuthContextProvider: ({ children, ...rest }) => {
+//     console.log({ children, ...rest });
+//     return (
+//       <MockAuth.MockAuthContextProvider {...rest}>{children}</MockAuth.MockAuthContextProvider>
+//     );
+//   },
+//   useAuthorization: () => MockAuth.useAuthorization(),
+// }));
 
 describe('useActiveInspectionProvider', () => {
   test('#handleNextPress sends expected payload', async () => {
-    jest.mock('@react-navigation/native', () => {
-      return {
-        ...jest.requireActual('@react-navigation/native'),
-        useNavigation: jest.fn(() => ({})),
-        useRoute: () => ({
-          params: {
-            aggId: '',
-            section: '0eafdffc-8ba5-45b6-ada8-9372dabe81c2',
-            step: '1e46bdf9-a30a-4d41-bc61-a39b0a86d2f3',
-            name: 'Dev 1',
-            vehicleId: '26284',
-          },
-        }),
-      };
-    });
+    // jest.mock('@react-navigation/native', () => {
+    //   return {
+    //     ...jest.requireActual('@react-navigation/native'),
+    //     useNavigation: jest.fn(() => ({})),
+    //     useRoute: () => ({
+    //       params: {
+    //         aggId: '',
+    //         section: '0eafdffc-8ba5-45b6-ada8-9372dabe81c2',
+    //         step: '1e46bdf9-a30a-4d41-bc61-a39b0a86d2f3',
+    //         name: 'Dev 1',
+    //         vehicleId: '26284',
+    //       },
+    //     }),
+    //   };
+    // });
 
     const wrapper = ({ children }: { children: ReactNode }) => {
       console.log({ children });

@@ -1,14 +1,9 @@
-import { useClusterMapContext } from '@fluidtruck/mobile';
 import React, { createContext, ReactNode, useContext, useReducer } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
-import { LatLng } from 'react-native-maps';
 
 import { flatResponseGet } from '@/src/helpers/api';
 import { useAPIErrors } from '@/src/hooks/global/APIErrors';
 import { useAuthorization } from '@/src/hooks/global/Authorization';
 
-import { usePrevious } from '../../global/usePrevious';
 import { useDeltaSwr } from '../../useDeltaSwr';
 import { initialState, reducer } from './reducer';
 import { ACTIONS, Context, Vehicle } from './types';
@@ -24,45 +19,21 @@ export const VehiclesContextProvider = ({
   const { authState } = useAuthorization();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { isManualSearch, searchFleetNumber } = state;
-  const { boundingBox, handleSetMarkersToFit, setBoundingBox, mapRef } =
-    useClusterMapContext();
-
-  const { southWest, northEast } = boundingBox || {};
-  const prevSouthWest = usePrevious<LatLng | undefined>(southWest);
-  const prevNorthEast = usePrevious<LatLng | undefined>(northEast);
-
-  const { t } = useTranslation(['common']);
 
   const query = new URLSearchParams({
-    southwestLat: (southWest?.latitude || '').toString(),
-    southwestLng: (southWest?.longitude || '').toString(),
-    northeastLat: (northEast?.latitude || '').toString(),
-    northeastLng: (northEast?.longitude || '').toString(),
+    southwestLat: ('latitude' || '').toString(),
+    southwestLng: ('longitude' || '').toString(),
+    northeastLat: ('latitude' || '').toString(),
+    northeastLng: ('longitude' || '').toString(),
     fleetNumber: searchFleetNumber || '',
   });
   const url = `api/v1/operations/vehicles?${query}`;
 
-  const hasSouthWestKeys = !!Object.keys(southWest || {}).length;
-  const hasNorthEastKeys = !!Object.keys(northEast || {}).length;
-
-  const sameSouthWest =
-    prevSouthWest?.latitude === southWest?.latitude &&
-    prevSouthWest?.longitude === southWest?.longitude;
-  const sameNorthEast =
-    prevNorthEast?.latitude === northEast?.latitude &&
-    prevNorthEast?.longitude === northEast?.longitude;
-
-  const sameBoundingBox = sameSouthWest && sameNorthEast;
-  const manualIsReady =
-    (isManualSearch && !sameBoundingBox) || !!searchFleetNumber;
-  const hasBoundingBox = hasSouthWestKeys && hasNorthEastKeys;
-
-  const isReadyToFetch = hasBoundingBox || manualIsReady;
 
   const handleManualSearch = async (flag: boolean) => {
     if (flag) {
-      const boundingBox = await mapRef?.current?.getMapBoundaries();
-      setBoundingBox(boundingBox);
+      // const boundingBox = await mapRefcurrent?.getMapBoundaries();
+      // setBoundingBox(boundingBox);
     }
     dispatch({ type: ACTIONS.SET_SEARCH_FLEET_NUMBER, data: '' });
     dispatch({ type: ACTIONS.SET_CURRENT_SEARCH_FLEET_VALUE, data: '' });
@@ -70,18 +41,18 @@ export const VehiclesContextProvider = ({
   };
 
   const { data, mutate, isValidating, error } = useDeltaSwr({
-    key: isReadyToFetch ? url : null,
+    key:  url,
     fetcher: (key: string) =>
       flatResponseGet<Vehicle[]>({ path: key, authState, pushError }),
     options: {
       onSuccess: resp => {
         if (searchFleetNumber) {
-          handleSetMarkersToFit([resp[0].coordinates]);
+          // handleSetMarkersToFit([resp[0].coordinates]);
         } else if (isManualSearch) {
           handleManualSearch(false);
           dispatch({ type: ACTIONS.SET_IS_USER_GESTURE, data: false });
         } else {
-          handleSetMarkersToFit();
+          // handleSetMarkersToFit();
         }
       },
       onError: () => {
@@ -91,22 +62,7 @@ export const VehiclesContextProvider = ({
         }
 
         if (searchFleetNumber) {
-          Alert.alert(
-            t('common:error.error'),
-            `No vehicle matches ID ${searchFleetNumber}`,
-            [
-              {
-                text: t('common:button.ok'),
-                onPress: () => {
-                  dispatch({
-                    type: ACTIONS.SET_CURRENT_SEARCH_FLEET_VALUE,
-                    data: '',
-                  });
-                  dispatch({ type: ACTIONS.SET_SEARCH_FLEET_NUMBER, data: '' });
-                },
-              },
-            ],
-          );
+          //
         }
       },
     },
