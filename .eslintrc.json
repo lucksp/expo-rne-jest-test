@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "react",
+    "react-native"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react-hooks/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/ignore": ["react-native\\/", "react-native-picker-select\\/"],
+    "import/no-cycle": "error",
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "./src"
+      }
+    }
+  },
+  "rules": {
+    "eqeqeq": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/prefer-as-const": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    // Imports
+    "import/no-unresolved": "off",
+    "sort-imports": "off",
+    "import/extensions": "off",
+    "import/no-named-as-default": "off",
+    "import/order": "off",
+    "import/prefer-default-export": "off",
+    "simple-import-sort/imports": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "**/mocks/**",
+          "**/test-utils/jest-setup.ts"
+        ]
+      }
+    ],
+
+    // React
+    "react/prop-types": "off",
+
+    // Hooks
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
+
+    // Jest
+    "jest/expect-expect": [
+      "error",
+      {
+        "assertFunctionNames": ["expect", "findBy*"]
+      }
+    ]
+  }
+}
