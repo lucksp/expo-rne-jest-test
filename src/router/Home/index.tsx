@@ -4,29 +4,26 @@ import React from 'react';
 import { VehicleDataProvider } from '@/src/hooks/local/Vehicle';
 import { VehiclesContextProvider } from '@/src/hooks/local/Vehicles';
 
+import { SCREEN_NAME,SCREENS } from '../screens';
 import { InspectionNavigator } from './Inspections';
-import { useInspectionStyles } from './styles';
 import { HomeStackParams } from './types';
 
 const HomeStack = createNativeStackNavigator<HomeStackParams>();
 
 export function HomeNavigator(): JSX.Element {
-  const styles = useInspectionStyles();
 
   return (
       <VehiclesContextProvider>
         <VehicleDataProvider>
           <HomeStack.Navigator
             screenOptions={{
-              headerStyle: styles.headerStyles,
               headerBackVisible: false,
               headerTitle: '',
             }}
           >
-            {/* <HomeStack.Group
+            <HomeStack.Group
               screenOptions={{
                 headerShadowVisible: false,
-                headerStyle: styles.headerStyles,
               }}
             >
               <HomeStack.Screen
@@ -42,7 +39,15 @@ export function HomeNavigator(): JSX.Element {
                 name={SCREENS[SCREEN_NAME.VEHICLE_DETAIL].name}
                 component={SCREENS[SCREEN_NAME.VEHICLE_DETAIL].component}
               />
-            </HomeStack.Group> */}
+            </HomeStack.Group>
+            
+            {/* This nested navigator has its own stack to keep providers away from the top level
+              * navigator. This is to prevent the providers from being re-rendered when the user
+              * navigates to a different screen.
+              * However, when accessing the nested navigator from the top level navigator, the
+              * params are not accessible at the top level `route.params` object. Instead, they
+              * are accessible at `route.params.params`.
+            */}
             <HomeStack.Screen
               options={{ headerShown: false }}
               name={'InspectionSubStack'}

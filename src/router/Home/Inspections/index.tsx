@@ -4,56 +4,42 @@ import React from 'react';
 import { InspectionProgressProvider } from '@/src/hooks/local/Inspections/ActiveInspection/InspectionProgressProvider';
 import { InspectionsDataProvider } from '@/src/hooks/local/Inspections/ActiveInspection/InspectionsDataProvider/InspectionsDataProvider';
 
-import { useInspectionStyles } from './styles';
+import { SCREEN_NAME,SCREENS } from '../../screens';
 import { InspectionStackParams } from './types';
 
 const InspectionStack = createNativeStackNavigator<InspectionStackParams>();
 
-export function InspectionNavigator(): JSX.Element {
-  const styles = useInspectionStyles();
+export function InspectionNavigator(props): JSX.Element {
+  // The props show that the nested navigator is accessible from the top level navigator.
+  // However, the params are not accessible at the top level `route.params` object. Instead, they
+  // are accessible at `route.params.params`.
 
   return (
     <InspectionsDataProvider>
       <InspectionProgressProvider>
         <InspectionStack.Navigator
-          screenOptions={{
-            headerStyle: styles.headerStyles,
-            headerBackVisible: false,
-            headerShadowVisible: false,
-            headerTitle: '',
-          }}
         >
-          {/* <InspectionStack.Screen
+          <InspectionStack.Screen
             name={SCREENS[SCREEN_NAME.VEHICLE_DETAIL_INSPECTIONS].name}
             component={SCREENS[SCREEN_NAME.VEHICLE_DETAIL_INSPECTIONS].component}
-          /> */}
+          />
           <InspectionStack.Group>
-            {/* <InspectionStack.Screen
+            <InspectionStack.Screen
               name={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_SECTION].name}
               component={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_SECTION].component}
             />
             <InspectionStack.Screen
               name={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_STEP].name}
               component={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_STEP].component}
-              options={{
-                headerRight: () => <InspectionHeader />,
-              }}
-            />
-            <InspectionStack.Screen
-              name={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_ISSUE].name}
-              component={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_ISSUE].component}
-              options={{
-                presentation: 'fullScreenModal',
-              }}
+              
             />
             <InspectionStack.Screen
               name={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_SECTION_OVERVIEW].name}
               component={SCREENS[SCREEN_NAME.VEHICLE_INSPECTIONS_SECTION_OVERVIEW].component}
               options={{
-                headerLeft: () => <GoBack iconDirection="down" />,
                 presentation: 'modal',
               }}
-            /> */}
+            />
           </InspectionStack.Group>
         </InspectionStack.Navigator>
       </InspectionProgressProvider>

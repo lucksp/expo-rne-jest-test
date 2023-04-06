@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/core';
 import React, { createContext, ReactNode } from 'react';
 import { useImmerReducer } from 'use-immer';
 
@@ -6,6 +7,7 @@ import { useAPIErrors } from '@/src/hooks/global/APIErrors';
 import { useAuthorization } from '@/src/hooks/global/Authorization';
 import { ApiPath } from '@/src/hooks/routes';
 import { useDeltaSwr } from '@/src/hooks/useDeltaSwr';
+import { InspectionRouteProps } from '@/src/router/Home/Inspections/types';
 
 import { ACTIONS } from './actions';
 import { initialState, reducer } from './reducer';
@@ -18,6 +20,10 @@ export const InspectionsDataProvider = ({ children }: { children: ReactNode }) =
   const { pushError } = useAPIErrors();
   const [state, dispatch] = useImmerReducer(reducer, initialState);
   const useUrl = authState.userToken && state[ACTIONS.SET_INSPECTION_NAME];
+  const router = useRoute<InspectionRouteProps<'InspectionSectionOverview'>>();
+  console.log({ router });
+  // The params are not accessible at the top level `route.params` object. Instead, they
+  // are accessible at `route.params.params`.
 
   const { data, mutate, error, isValidating } = useDeltaSwr({
     key: useUrl
