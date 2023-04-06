@@ -7,14 +7,7 @@ import * as Clipboard from 'expo-clipboard';
 import Constants from 'expo-constants';
 import React, { createContext, useCallback, useState } from 'react';
 
-import type { ComponentShape } from '@/src/baseTypes';
-import {
-  getField,
-  getNextStep,
-  getSection,
-} from '@/src/features/Inspections/InspectionFactory/helper';
-import { SignedURLs } from '@/src/features/Inspections/SubmitTransition/types';
-import { flatPost, flatResponseGet } from '@/src/helpers/api';
+import { flatPost, flatResponseGet, SignedURLs } from '@/src/helpers/api';
 import { useAPIErrors } from '@/src/hooks/global/APIErrors';
 import { useAuthorization } from '@/src/hooks/global/Authorization';
 import { usePrevious } from '@/src/hooks/global/usePrevious';
@@ -22,15 +15,10 @@ import { ApiPath } from '@/src/hooks/routes';
 import { useDeltaSwr as getImageBucketUrls } from '@/src/hooks/useDeltaSwr';
 import { InspectionRouteProps, InspectionStackParams } from '@/src/router/Home/Inspections/types';
 
-import {
-  JPEGContentType,
-  useCompressor,
-  useImageManipulator,
-} from '../../Assets/useImageManipulator';
 import { useVehicleDataContext } from '../../Vehicle';
-import { StepStatus, useInspectionProgressProvider } from '../InspectionProgressProvider';
-import { useInspectionsDataContext } from '../InspectionsDataProvider/useInspectionsDataContext';
-import { mapOptionsFieldsToSubmit } from './helper';
+import { getField, getNextStep, getSection, mapOptionsFieldsToSubmit } from './helper';
+import { StepStatus,useInspectionProgressProvider } from './InspectionProgressProvider';
+import { useInspectionsDataContext } from './InspectionsDataProvider/useInspectionsDataContext';
 import { ActiveContextShape, FormInputShape, MediaShape, PostResponse, UrlData } from './types';
 
 export const ActiveInspectionContext = createContext<ActiveContextShape | undefined>(undefined);
@@ -50,8 +38,8 @@ const ActiveInspectionProvider: ComponentShape = ({ children }) => {
 
   const { params: issueParams } = useRoute<InspectionRouteProps<'VehicleInspectionIssue'>>();
   const { updateStatus } = useInspectionProgressProvider();
-  const { manipulateImage } = useImageManipulator();
-  const { compressMedia } = useCompressor();
+  // const { manipulateImage } = useImageManipulator();
+  // const { compressMedia } = useCompressor();
 
   // TODO - use reducer instead of multiple useState
   const [speedDialOpen, setSpeedDialOpen] = useState(false);
@@ -246,17 +234,17 @@ const ActiveInspectionProvider: ComponentShape = ({ children }) => {
           }
           // The result body is different depending on media type
           let result;
-          if (mediaInfo.contentType === JPEGContentType) {
-            // returns a base64 string
-            result = await manipulateImage({
-              imageUri: mediaInfo?.mediaType[i] || '',
-            });
-          } else {
-            // returns a file path string
-            result = {
-              uri: await compressMedia(mediaInfo?.mediaType[i] || ''),
-            };
-          }
+          // if (mediaInfo.contentType === 'image/jpeg') {
+          //   // returns a base64 string
+          //   result = await manipulateImage({
+          //     imageUri: mediaInfo?.mediaType[i] || '',
+          //   });
+          // } else {
+          //   // returns a file path string
+          //   result = {
+          //     uri: await compressMedia(mediaInfo?.mediaType[i] || ''),
+          //   };
+          // }
 
           // All we need to use is a bare bones fetch
           await fetch(`${data.signedUrl}`, {

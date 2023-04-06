@@ -2,13 +2,7 @@ import { NavigationProp, useNavigation, useRoute } from '@react-navigation/core'
 import React, { createContext, ReactElement, ReactNode, useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import {
-  getField,
-  getIssue,
-  getNextStep,
-} from '@/src/features/Inspections/InspectionFactory/helper';
-import { SignedURLs } from '@/src/features/Inspections/SubmitTransition/types';
-import { flatResponseGet, put } from '@/src/helpers/api';
+import { flatResponseGet, put,SignedURLs } from '@/src/helpers/api';
 import { useAPIErrors } from '@/src/hooks/global/APIErrors';
 import { useAuthorization } from '@/src/hooks/global/Authorization';
 import { ApiPath } from '@/src/hooks/routes';
@@ -16,6 +10,7 @@ import { useDeltaSwr as getImageBucketUrls } from '@/src/hooks/useDeltaSwr';
 import { InspectionRouteProps, InspectionStackParams } from '@/src/router/Home/Inspections/types';
 
 import { issueData } from './__fixtures__/issueFixture';
+import { getField, getIssue, getNextStep } from './helper';
 // import { mapOptionsFieldsToSubmit } from './helper';
 import { FormInputShape, IssueContextShape, MediaShape, UrlData } from './types';
 

@@ -1,4 +1,5 @@
-import { ComponentTypes } from '../../InspectionsDataProvider/types';
+import { ComponentTypes } from "../InspectionsDataProvider/types";
+
 export const issueData = {
   formGroups: [
     {

@@ -420,6 +420,13 @@ export const get = async <T>(props: {
   return data;
 };
 
+export type SignedURLs = {
+  filename: string;
+  signedUrl: string;
+  uuid: string;
+};
+
+
 // The flatResponseGet is used when the shape has no `status` or JSON obj response is available
 export const flatResponseGet = async <T>(props: {
   path: string;
